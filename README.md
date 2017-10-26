@@ -1,1 +1,4 @@
-# mykedianshang
+基于慕课网djano项目学习的代码
+
+贵在坚持
+
