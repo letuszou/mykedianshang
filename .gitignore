@@ -1,0 +1,12 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+.gradle
+.idea
+/xuemeiPlayer/build/outputs/apk/xuemeiPlayer-debug.apk
+uwsgi.ini
+nginx.conf
+db.sqlite3
