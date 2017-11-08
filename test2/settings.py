@@ -94,6 +94,41 @@ DATABASES = {
     }
 }
 
+import logging
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'error': {
+#             'level': 'ERROR',
+#             'class': 'logging.FileHandler',
+#             'filename': '/data/logs/test2/django_error.log',
+#             'formatter': 'verbose'
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['error'],
+#             'level': 'ERROR',
+#             'propagate': True,
+#         },
+#         'django.request': {
+#             'handlers': ['mail_admins', 'error'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         }
+#     }
+# }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 

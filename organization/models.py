@@ -27,6 +27,8 @@ class CourseOrg(models.Model):
     image = models.CharField(max_length=100, verbose_name=u"logo")
     address = models.CharField(max_length=150, verbose_name=u"机构地址")
     city = models.ForeignKey(CityDict, verbose_name=u"所在城市")
+    students = models.IntegerField(default=0, verbose_name=u"学习人数")
+    course_nums = models.IntegerField(default=0, verbose_name=u"课程数")
     add_time = models.DateTimeField(default=datetime.now)
 
     class Meta:
@@ -45,6 +47,8 @@ class Teacher(models.Model):
     work_position = models.CharField(max_length=50, verbose_name=u"公司职位")
     points = models.CharField(max_length=50, verbose_name=u"教学特点")
     fav_num = models.IntegerField(default=0, verbose_name=u"收藏数")
+    image = models.CharField(max_length=100, verbose_name=u"教师封面",
+                             default="http://bj.bcebos.com/imagelib/150/share_pic/a5dce4cfc0dd4094460859846e9c25fd.jpg")
     add_time = models.DateTimeField(default=datetime.now)
 
     class Meta:

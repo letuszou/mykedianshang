@@ -14,15 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 import xadmin
-from django.conf.urls import include, url
+from django.conf.urls import include
+
 import views
 from test2.views import *
 from users.urls import url
-
 
 urlpatterns = [
     url(r'^xadmin/', include(xadmin.site.urls)),
     url(r'^$', views.home),
     url(r'^account/', include('users.urls')),
-    url(r'^org/', include('organization.urls')),
+    url(r'^org/', include('organization.urls', namespace='org')),
 ]
