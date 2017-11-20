@@ -1,3 +1,4 @@
+# coding: utf-8
 """test2 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,17 +14,11 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-import xadmin
-from django.conf.urls import include
+from django.conf.urls import url
 
-import views
-from test2.views import *
-from users.urls import url
+from courses.views import CourseDetailView, CoursesListView
 
 urlpatterns = [
-    url(r'^xadmin/', include(xadmin.site.urls)),
-    url(r'^$', views.home),
-    url(r'^account/', include('users.urls')),
-    url(r'^org/', include('organization.urls', namespace='org')),
-    url(r'^course/', include('courses.urls', namespace='course')),
+    url(r'^detail/(?P<course_id>\d+)/$', CourseDetailView.as_view(), name='course_detail'),
+    url(r'^list/$', CoursesListView.as_view(), name='course_list'),
 ]

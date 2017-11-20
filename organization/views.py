@@ -7,7 +7,6 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
-from courses.models import Course
 from organization.forms import UserAskForm
 from organization.models import CourseOrg, CityDict, Teacher
 
@@ -39,6 +38,7 @@ class OrgListView(View):
                 all_orgs == all_orgs.order_by("-course_nums")
 
         org_nums = all_orgs.count()
+        current_page = "org_list"
 
         return render(request, 'org-list.html', {
             "all_orgs": all_orgs,
@@ -47,7 +47,8 @@ class OrgListView(View):
             "city_id": city_id,
             "category": category,
             "hot_args": hot_args,
-            "sort": sort
+            "sort": sort,
+            "current_page":current_page
         })
 
 
@@ -58,7 +59,6 @@ class AddUserAskView(View):
 
     def post(self, request):
         userask_form = UserAskForm(request.POST)
-        logging.error("******************************")
         if userask_form.is_valid():
             # commit 设置True会直接和数据库交互
             userask_form.save(commit=True)
