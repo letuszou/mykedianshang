@@ -30,3 +30,8 @@ def __unicode__(self):
 变为<br>
 def __unicode__(self):
         return self.user.username<br>
+
+2017-11-22
+1添加一个post接口(用于添加评论)
+2添加评论详情的页面
+3首页添加一些静态数据与后台交互
