@@ -20,7 +20,7 @@
         <div class="brief group_list">
             {% for course in all_courses %}
                 <div class="module1_5 box">
-                    <a href="course-detail.html"><img width="214" src="{{ course.image }}"/></a>
+                    <a href="{% url 'course:course_detail' course.id %}"><img width="214" src="{{ course.image }}"/></a>
                     <div class="des">
                         <a href="course-detail.html"><h2>{{ course.name }}</h2></a>
                         <span class="fl">课时：<i class="key">{{ course.learn_time }}</i></span>
@@ -41,7 +41,7 @@
     <div class="right companycenter layout">
         <div class="head">
             <h1>机构教师</h1>
-            <a class="green fr more" href="org-detail-teachers.html">查看更多 > </a>
+            <a class="green fr more" href="{% url 'org:org_teacher' course_org.id %}">查看更多 > </a>
         </div>
 
         <div class="diarys">
@@ -69,7 +69,7 @@
     <div class="right companycenter layout">
         <div class="head">
             <h1>机构介绍</h1>
-            <a class="green fr more" href="org-detail-desc.html">查看更多 > </a>
+            <a class="green fr more" href="{% url 'org:org_desc' course_org.id %}">查看更多 > </a>
         </div>
         <div class="cont">
             {{ course_org.desc }}
@@ -165,20 +165,20 @@
                 $('.recordbox2').show();
             });
 
-            $('.imgslide').unslider({
-                speed: 500,               //  The speed to animate each slide (in milliseconds)
-                delay: 3000,              //  The delay between slide animations (in milliseconds)
-                complete: function () {
-                },  //  A function that gets called after every slide animation
-                keys: true,               //  Enable keyboard (left, right) arrow shortcuts
-                dots: true,               //  Display dot navigation
-                fluid: false              //  Support responsive design. May break non-responsive designs
-            });
-            var unslider = $('.imgslide').unslider();
-            $('.unslider-arrow').click(function () {
-                var fn = this.className.split(' ')[1];
-                unslider.data('unslider')[fn]();
-            });
+{#            $('.imgslide').unslider({#}
+{#                speed: 500,               //  The speed to animate each slide (in milliseconds)#}
+{#                delay: 3000,              //  The delay between slide animations (in milliseconds)#}
+{#                complete: function () {#}
+{#                },  //  A function that gets called after every slide animation#}
+{#                keys: true,               //  Enable keyboard (left, right) arrow shortcuts#}
+{#                dots: true,               //  Display dot navigation#}
+{#                fluid: false              //  Support responsive design. May break non-responsive designs#}
+{#            });#}
+{#            var unslider = $('.imgslide').unslider();#}
+{#            $('.unslider-arrow').click(function () {#}
+{#                var fn = this.className.split(' ')[1];#}
+{#                unslider.data('unslider')[fn]();#}
+{#            });#}
         });
     </script>
 {% endblock custom_js %}

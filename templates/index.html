@@ -10,42 +10,14 @@
                 <div class="imgslide">
                     <ul class="imgs">
 
-                        <li>
-                            <a href="http://www.imooc.com">
-                                <img width="1200" height="478"
-                                     src="/static/media/banner/2016/11/57a801860001c34b12000460.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http://www.projectsedu.com">
-                                <img width="1200" height="478"
-                                     src="/static/media/banner/2016/11/57aa86a0000145c512000460.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http://www.projectsedu.com">
-                                <img width="1200" height="478"
-                                     src="/static/media/banner/2016/11/57a801860001c34b12000460_z4Vb8zl.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http://www.projectsedu.com">
-                                <img width="1200" height="478"
-                                     src="/static/media/banner/2016/11/57aa86a0000145c512000460_nMwvoQD.jpg"/>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="http://www.projectsedu.com">
-                                <img width="1200" height="478"
-                                     src="/static/media/banner/2016/11/57aa86a0000145c512000460_GXIBATC.jpg"/>
-                            </a>
-                        </li>
-
-
+                        {% for course in hot_courses %}
+                            <li>
+                                <a href="{% url 'course:course_detail' course.id %}">
+                                    <img width="1200" height="478"
+                                         src="{{ course.image }}"/>
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="unslider-arrow prev"></div>
@@ -86,26 +58,21 @@
                     <div class="module1_1 left">
                         <img width="228" height="614" src="/static/images/module1_1.jpg"/>
                         <p class="fisrt_word">名师授课<br/>专业权威</p>
-                        <a class="more" href="course-list.html">查看更多课程 ></a>
+                        <a class="more" href="{% url 'course:course_list' %}">查看更多课程 ></a>
                     </div>
                     <div class="right group_list">
 
                         <div class="module1_2 box">
                             <div class="imgslide2">
                                 <ul class="imgs">
-                                    <li>
-                                        <a href="course-detail.html">
-                                            <img width="470" height="300"
-                                                 src="/static/media/courses/2016/12/python文件处理.jpg"/>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="course-detail.html">
-                                            <img width="470" height="300"
-                                                 src="/static/media/courses/2016/12/python面向对象.jpg"/>
-                                        </a>
-                                    </li>
-
+                                    {% for click_course in click_courses %}
+                                        <li>
+                                            <a href="{% url 'course:course_detail' click_course.id %}">
+                                                <img width="470" height="300"
+                                                     src="{{ click_course.image }}"/>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <div class="unslider-arrow2 prev"></div>
@@ -145,7 +112,7 @@
                     <div class="module3_1 left">
                         <img width="228" height="463" src="/static/images/module3_1.jpg"/>
                         <p class="fisrt_word">名校来袭<br/>权威认证</p>
-                        <a class="more" href="course_list.html">查看更多机构 ></a>
+                        <a class="more" href="{% url 'org:org_list' %}">查看更多机构 ></a>
                     </div>
                     <div class="right">
                         <ul>

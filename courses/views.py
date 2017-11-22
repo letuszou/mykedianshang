@@ -1,10 +1,14 @@
 # coding: utf-8
 
 
+import logging
+
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
-from courses.models import Course
+from courses.models import Course, CourseResource
+from operation.models import CourseComments
 
 
 class CoursesListView(View):
@@ -13,18 +17,22 @@ class CoursesListView(View):
     """
 
     def get(self, request):
-        courses = Course.objects.all()
+        all_courses = Course.objects.all().order_by("-add_time")
         current_page = "course_list"
-        sort = request.GET.get("sort", "")
+        hot_courses = Course.objects.all().order_by("-click_num")[:3]
+        sort = request.GET.get('sort', "")
+
         if sort:
             if sort == "hot":
-                courses == courses.order_by("-click_num")
-            elif sort == "join":
-                courses == courses.order_by("-students")
+                all_courses == all_courses.order_by("click_num")
+            elif sort == "students":
+                all_courses == all_courses.order_by("students")
+
         return render(request, 'course_list.html', {
-            "courses": courses,
+            "all_courses": all_courses,
             "current_page": current_page,
-            "sort": sort
+            "sort": sort,
+            "hot_courses": hot_courses
         })
 
 
@@ -36,7 +44,72 @@ class CourseDetailView(View):
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
         org = course.course_org
+        course.click_num += 1
+        course.save()
+        tag = course.tag
+        if tag:
+            relate_courses = Course.objects.filter(tag=tag)[:1]
+        else:
+            relate_courses = []
         return render(request, 'course-detail.html', {
             "course": course,
+            "relate_courses": relate_courses,
             "org": org
         })
+
+
+class CoursesVideoView(View):
+    # 课程资源
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        courseResource = CourseResource.objects.filter(course=course)
+        tag = course.tag
+        if tag:
+            relate_courses = Course.objects.filter(tag=tag)[:3]
+        else:
+            relate_courses = []
+        return render(request, 'course-video.html', {
+            "course_id": course_id,
+            "course": course,
+            "courseResource": courseResource,
+            "relate_courses": relate_courses
+        })
+
+
+class CoursesCommentView(View):
+    # 课程评论
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        logging.error("id=" + str(course_id))
+        course_comments = course.coursecomments_set.all()
+        relate_courses = CourseResource.objects.filter(course=course)
+        tag = course.tag
+        if tag:
+            relate_courses = Course.objects.filter(tag=tag)[:1]
+        else:
+            relate_courses = []
+        return render(request, 'course-comment.html', {
+            "course_id": course_id,
+            "course": course,
+            "course_comments": course_comments,
+            "relate_courses": relate_courses
+
+        })
+
+
+class CoursesAddCommentView(View):
+    def post(self, request):
+        """
+        添加评论
+        """
+        comment = request.POST.get("comments", "")
+        course_id = request.POST.get("course_id", 0)
+        if comment:
+            createComment = CourseComments()
+            createComment.comments = comment
+            createComment.course_id = course_id
+            createComment.user = request.user
+            createComment.save()
+            return HttpResponse("{'status':'success'}", content_type='application/json')
+        else:
+            return HttpResponse("{'status':'fail'}", content_type='application/json')

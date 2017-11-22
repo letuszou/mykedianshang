@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from courses.views import CourseDetailView, CoursesListView
+from courses.views import CourseDetailView, CoursesListView,CoursesVideoView,CoursesCommentView,CoursesAddCommentView
 
 urlpatterns = [
     url(r'^detail/(?P<course_id>\d+)/$', CourseDetailView.as_view(), name='course_detail'),
+    url(r'^video/(?P<course_id>\d+)/$', CoursesVideoView.as_view(), name='course_video'),
+    url(r'^comment/(?P<course_id>\d+)/$', CoursesCommentView.as_view(), name='course_comment'),
     url(r'^list/$', CoursesListView.as_view(), name='course_list'),
+    url(r'^add_comment/$', CoursesAddCommentView.as_view(), name='course_add_comment'),
+
 ]

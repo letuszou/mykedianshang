@@ -10,11 +10,11 @@ class CourseAdmin(object):
 
 
 class LessonAdmin(object):
-    list_display = ['name', 'lesson', 'add_time']
+    list_display = ['name', 'add_time']
 
 
 class VideoAdmin(object):
-    list_display = ['name', 'add_time', 'course']
+    list_display = ['name', 'add_time']
 
 
 class CourseResourceAdmin(object):

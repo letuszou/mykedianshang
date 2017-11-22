@@ -36,25 +36,30 @@
                             <h1 title="{{ course.name }}">{{ course.name }}</h1>
                             <span class="key">{{ course.desc }}</span>
                             <div class="prize">
-                                <span class="fl">难度：<i class="key">{{ course.degree }}</i></span>
+                                <span class="fl">难度：<i class="key">{{ course.get_degree_display }}</i></span>
                                 <span class="fr">学习人数：{{ course.students }}</span>
                             </div>
                             <ul class="parameter">
                                 <li><span
                                         class="pram word3">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</span><span>{{ course.learn_time }}</span>
                                 </li>
-                                <li><span class="pram word3">章&nbsp;节&nbsp;数：</span><span>5</span></li>
-                                <li><span class="pram word3">课程类别：</span><span title="">web开发/后端开发</span></li>
+                                <li><span
+                                        class="pram word3">章&nbsp;节&nbsp;数：</span><span>{{ course.get_zj_nums }}</span>
+                                </li>
+                                <li><span class="pram word3">课程类别：</span><span title="">{{ course.category }}</span>
+                                </li>
                                 <li class="piclist"><span class="pram word4">学习用户：</span>
-                                    <span class="pic"><img width="40" height="40"
-                                                           src="/static/media/image/2016/12/default_big_14.png"/></span>
+                                    {% for user_course in course.get_learn_num %}
+                                        <span class="pic"><img width="40" height="40"
+                                                               src="{{ user_course.user.image }}"/></span>
+                                    {% endfor %}
                                 </li>
                             </ul>
                             <div class="btns">
                                 <div class="btn colectgroupbtn" id="jsLeftBtn">
                                     收藏
                                 </div>
-                                <div class="buy btn"><a style="color: white" href="course-video.html">开始学习</a></div>
+                                <div class="buy btn"><a style="color: white" href="{% url 'course:course_video' course.id %}">开始学习</a></div>
                             </div>
                         </div>
                         <div class="group-share-box">
@@ -79,7 +84,7 @@
                             <p>世界名校，课程权威</p>
                         </div>
                         <div class="pic">
-                            <a href="/company/14/">
+                            <a href="">
                                 <img width="150" height="80" src="{{ org.image }}"/>
                             </a>
                         </div>
@@ -93,10 +98,10 @@
                         <div class="clear">
                             <ul>
                                 <li>
-                                    <span>课 &nbsp;程&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {{ org.course_nums }}</span>
+                                    <span>课 &nbsp;程&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ org.course_nums }}</span>
                                 </li>
                                 <li>
-                                    <span>教 &nbsp;师&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{ org.course_nums }}</span>
+                                    <span>教 &nbsp;师&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ org.course_nums }}</span>
                                 </li>
                                 <li>所在地区：&nbsp;&nbsp; {{ org.address }}</li>
                                 <li>认&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证&nbsp;:
@@ -134,10 +139,13 @@
                             </tr>
                             <tr>
                                 <td style="word-break: break-all;" width="53" valign="top">{{ course.name }}<br/></td>
-                                <td style="word-break: break-all;" width="53" valign="top">{{ course.learn_time }}<br/></td>
+                                <td style="word-break: break-all;" width="53" valign="top">{{ course.learn_time }}<br/>
+                                </td>
                                 <td style="word-break: break-all;" width="53" valign="top">{{ course.degree }}<br/></td>
-                                <td style="word-break: break-all;" width="53" valign="top">{{ course.learn_time }}<br/></td>
-                                <td style="word-break: break-all;" width="53" valign="top">{{ course.students }}<br/></td>
+                                <td style="word-break: break-all;" width="53" valign="top">{{ course.learn_time }}<br/>
+                                </td>
+                                <td style="word-break: break-all;" width="53" valign="top">{{ course.students }}<br/>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -154,20 +162,20 @@
                 <div class="right layout">
                     <div class="head">相关课程推荐</div>
                     <div class="group_recommend">
-
+                        {% for relate_course in relate_courses %}
                         <dl>
                             <dt>
-                                <a target="_blank" href="">
+                                <a target="_blank" href="{% url 'course:course_detail' course.id %}">
                                     <img width="240" height="220" class="scrollLoading"
-                                         src="/static/media/courses/2016/11/540e57300001d6d906000338-240-135_mvvGYHL.jpg"/>
+                                         src="{{ relate_course.image }}"/>
                                 </a>
                             </dt>
                             <dd>
-                                <a target="_blank" href=""><h2> django实战项目</h2></a>
-                                <span class="fl">学习时长：<i class="key">0</i></span>
+                                <h2> {{ relate_course.name }}</h2>
+                                <span class="fl">学习时长：<i class="key">{{ relate_course.learn_time }}</i></span>
                             </dd>
                         </dl>
-
+                        {% endfor %}
 
                     </div>
                 </div>
