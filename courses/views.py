@@ -9,6 +9,7 @@ from django.views.generic import View
 
 from courses.models import Course, CourseResource
 from operation.models import CourseComments
+from utils.mixin_utils import LoginRequireMixin
 
 
 class CoursesListView(View):
@@ -76,7 +77,7 @@ class CoursesVideoView(View):
         })
 
 
-class CoursesCommentView(View):
+class CoursesCommentView(LoginRequireMixin, View):
     # 课程评论
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))

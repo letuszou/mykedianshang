@@ -18,9 +18,35 @@ from django.conf.urls import url
 
 from organization.views import OrgListView, AddUserAskView, OrgHomeView, OrgTeacherView, OrgDescView, OrgCourseView, \
     AddUserFavView, TeachersView, TeacherDetailView
+# from organization.views import *
+# begin to serializer
+# restframework
+
+# 1. import modules
+from django.conf.urls import url, include
+from .models import *
+from rest_framework import routers, serializers, viewsets
+
+# 2. choose what you want
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CourseOrg
+        fields = ('name',)
+
+# 3. choose how many data you want
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = CourseOrg.objects.all()
+    serializer_class = UserSerializer
+
+# 4. register in app
+router = routers.DefaultRouter()
+
+# 5. choose a name, just like urlpatterns
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
-
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^list/$', OrgListView.as_view(), name='org_list'),
     # 机构收藏
     url(r'^add_ask/$', AddUserAskView.as_view(), name='add_ask'),

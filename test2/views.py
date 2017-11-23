@@ -1,6 +1,9 @@
 # coding: utf-8
 
+
 from django.shortcuts import render
+from rest_framework import serializers
+from rest_framework.generics import ListAPIView
 
 from courses.models import Course
 from organization.models import CourseOrg
@@ -22,3 +25,23 @@ def home(request):
         "hot_courses": hot_courses,
         "click_courses": click_courses
     })
+
+
+class ListSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Course
+        fields = ('name','category','learn_time','add_time')
+
+
+class ListTestApiView(ListAPIView):
+    """
+    第一个get请求的接口，希望一切都好(注释)\n
+    ListTestApiView 显示了前三个单词
+    """
+    serializer_class = ListSerializer
+
+    def get_queryset(self):
+        return Course.objects.all()
+
+    def post(self):
+        pass

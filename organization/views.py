@@ -1,11 +1,10 @@
 # coding: utf-8
 
-import logging
-
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
+from courses.models import Course
 from operation.models import UserFavorite
 from organization.forms import UserAskForm
 from organization.models import CourseOrg, CityDict, Teacher
@@ -203,7 +202,12 @@ class TeacherDetailView(View):
     def get(self, request, teacher_id):
         current_page = "teacher_detail"
         teacher = Teacher.objects.get(id=int(teacher_id))
+        teacher_courses = Course.objects.filter(course_teacher=teacher)[:3]
+        org_teachers = Teacher.objects.filter(org=teacher.org)[:3]
+
         return render(request, 'teacher-detail.html', {
             "current_page": current_page,
-            "teacher": teacher
+            "teacher": teacher,
+            "teacher_courses":teacher_courses,
+            "org_teachers":org_teachers
         })

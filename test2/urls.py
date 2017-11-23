@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^account/', include('users.urls')),
     url(r'^org/', include('organization.urls', namespace='org')),
     url(r'^course/', include('courses.urls', namespace='course')),
+    url(r'^test/list/', ListTestApiView.as_view(),name='list_list'),
 ]
