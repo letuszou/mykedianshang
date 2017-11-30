@@ -1,5 +1,8 @@
 ## 基于慕课网djano项目学习的代码 ##
 
+Django 1.85
+python 2.7
+<br>
 2017-10-28<br>
 完成Model的填写<br>
 2017-10-31<br>
@@ -38,3 +41,19 @@ def __unicode__(self):
 2017-11-23<br>
 添加restframework实现三端通用的接口,两个view中打样<br>
 course.view和test2.view<br>
+
+    # 课程搜索
+        search_keywords = request.GET.get("keywords","")
+        if search_keywords:
+            all_courses = all_courses.filter(Q(name__icontains=search_keywords)|Q(desc__icontains=search_keywords))
+
+
+搜索代码解释：<br>
+name_icontains  搜索name  __i 大小写模糊匹配<br>
+添加退出调用接口<br>
+添加404 500 403<br>
+
+添加博客功能的相关的测试内容
+
+
+下次学习12-1

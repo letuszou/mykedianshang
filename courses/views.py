@@ -6,6 +6,7 @@ import logging
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
+from django.db.models import Q
 
 from courses.models import Course, CourseResource
 from operation.models import CourseComments
@@ -20,8 +21,14 @@ class CoursesListView(View):
     def get(self, request):
         all_courses = Course.objects.all().order_by("-add_time")
         current_page = "course_list"
+        current_nav = "course_list"
         hot_courses = Course.objects.all().order_by("-click_num")[:3]
         sort = request.GET.get('sort', "")
+
+        # 课程搜索
+        search_keywords = request.GET.get("keywords","")
+        if search_keywords:
+            all_courses = all_courses.filter(Q(name__icontains=search_keywords)|Q(desc__icontains=search_keywords))
 
         if sort:
             if sort == "hot":
@@ -33,7 +40,8 @@ class CoursesListView(View):
             "all_courses": all_courses,
             "current_page": current_page,
             "sort": sort,
-            "hot_courses": hot_courses
+            "hot_courses": hot_courses,
+            "current_nav":current_nav
         })
 
 
@@ -52,10 +60,13 @@ class CourseDetailView(View):
             relate_courses = Course.objects.filter(tag=tag)[:1]
         else:
             relate_courses = []
+        current_nav = "course_list"
+
         return render(request, 'course-detail.html', {
             "course": course,
             "relate_courses": relate_courses,
-            "org": org
+            "org": org,
+            "current_nav":current_nav
         })
 
 
@@ -69,11 +80,13 @@ class CoursesVideoView(View):
             relate_courses = Course.objects.filter(tag=tag)[:3]
         else:
             relate_courses = []
+        current_nav = "course_list"
         return render(request, 'course-video.html', {
             "course_id": course_id,
             "course": course,
             "courseResource": courseResource,
-            "relate_courses": relate_courses
+            "relate_courses": relate_courses,
+            "current_nav":current_nav
         })
 
 
@@ -89,11 +102,13 @@ class CoursesCommentView(LoginRequireMixin, View):
             relate_courses = Course.objects.filter(tag=tag)[:1]
         else:
             relate_courses = []
+        current_nav = "course_list"
         return render(request, 'course-comment.html', {
             "course_id": course_id,
             "course": course,
             "course_comments": course_comments,
-            "relate_courses": relate_courses
+            "relate_courses": relate_courses,
+            "current_nav":current_nav
 
         })
 

@@ -23,8 +23,12 @@ from users.urls import url
 urlpatterns = [
     url(r'^xadmin/', include(xadmin.site.urls)),
     url(r'^$', views.home),
-    url(r'^account/', include('users.urls')),
+    url(r'^account/', include('users.urls', namespace='account')),
     url(r'^org/', include('organization.urls', namespace='org')),
     url(r'^course/', include('courses.urls', namespace='course')),
-    url(r'^test/list/', ListTestApiView.as_view(),name='list_list'),
+    url(r'^blog/', include('blog.urls', namespace='blog')),
+    url(r'^test/list/', ListTestApiView.as_view(), name='list_list'),
 ]
+handler403 = views.permission_denied
+handler404 = views.page_not_found
+handler500 = views.page_error

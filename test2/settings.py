@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'courses',
     'organization',
     'operation',
+    'blog',
     'xadmin',
     'crispy_forms',
     'rest_framework',

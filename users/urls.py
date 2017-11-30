@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from users.views import LoginView, RegisterView
+from users.views import *
 
 urlpatterns = [
-    url(r'^login/$', LoginView.as_view()),
+    url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^register/$', RegisterView.as_view(), name='register'),
+    url(r'^loginout/$', LoginOutView.as_view(), name='logout'),
+    url(r'^myinfo/$', MyInfoView.as_view(), name='my_info'),
+    url(r'^mycourses/$', MyCoursesView.as_view(), name='my_courses'),
+    url(r'^mymessage/$', MyMessageView.as_view(), name='my_message'),
+    #     用户头像上传
+    url(r'^image/upload/$', UploadImageView.as_view(), name='image_upload'),
+
 ]

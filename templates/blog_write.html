@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor demo</title>
+    <style>
+        input {
+            width: 200px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<form>
+
+    <input id="title" placeholder="请输入文章标题" height="35px" value="啦啦啦">
+
+    <div id="editor">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    </div>
+
+</form>
+
+
+<button onclick="printLog();">提交数据</button>
+
+<!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/blog/wangEditor.min.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    // 或者 var editor = new E( document.getElementById('#editor') )
+    editor.create()
+</script>
+
+</body>
+
+
+<script>
+
+    function printLog() {
+        var content = $("#editor").text();
+        var title = $("#title").val();
+        $.ajax({
+            url: "/blog/write/",
+            method: "post",
+            data: {
+                content: content,
+                title: title
+            },
+            success: function (data) {
+                var json = JSON.parse(data);
+                if (json["status"] == 0) {
+                    window.location.href = "/blog/index/"
+                }
+            },
+            complete: function (data) {
+                console.log("complete");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("error===status：" + XMLHttpRequest.status + "，textStatus：" + textStatus);
+            }
+        });
+    }
+
+</script>
+
+</html>

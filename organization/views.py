@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
@@ -35,10 +36,12 @@ class OrgListView(View):
                 all_orgs == all_orgs.order_by("-students")
             elif sort == "courses":
                 all_orgs == all_orgs.order_by("-course_nums")
-
+        search_keywords = request.GET.get("keywords", "")
+        if search_keywords:
+            all_orgs = all_orgs.filter(Q(name__icontains=search_keywords))
         org_nums = all_orgs.count()
         current_page = "org_list"
-
+        current_nav = "org_list"
         return render(request, 'org-list.html', {
             "all_orgs": all_orgs,
             "all_citys": all_citys,
@@ -47,7 +50,8 @@ class OrgListView(View):
             "category": category,
             "hot_args": hot_args,
             "sort": sort,
-            "current_page": current_page
+            "current_page": current_page,
+            "current_nav": current_nav
         })
 
 
@@ -86,12 +90,14 @@ class OrgHomeView(View):
 
         all_courses = course_org.course_set.all()[:3]
         all_teachers = course_org.teacher_set.all()[:1]
+        current_nav = "org_list"
         return render(request, 'org-detail-homepage.html', {
             "all_courses": all_courses,
             "all_teachers": all_teachers,
             "course_org": course_org,
             "current_page": current_page,
-            "has_fav": has_fav
+            "has_fav": has_fav,
+            "current_nav": current_nav
 
         })
 
@@ -186,15 +192,21 @@ class AddUserFavView(View):
 class TeachersView(View):
     def get(self, request):
         current_page = "org_teachers"
+        # 课程搜索
+        search_keywords = request.GET.get("keywords", "")
         teachers = Teacher.objects.all()
+        if search_keywords:
+            teachers = teachers.filter(Q(name__icontains=search_keywords))
         hot_teachers = Teacher.objects.all()[:3]
         count = teachers.count()
+        current_nav = "org_teachers"
 
         return render(request, 'teachers-list.html', {
             "current_page": current_page,
             "teachers": teachers,
             "count": count,
-            "hot_teachers": hot_teachers
+            "hot_teachers": hot_teachers,
+            "current_nav": current_nav
         })
 
 
@@ -204,10 +216,12 @@ class TeacherDetailView(View):
         teacher = Teacher.objects.get(id=int(teacher_id))
         teacher_courses = Course.objects.filter(course_teacher=teacher)[:3]
         org_teachers = Teacher.objects.filter(org=teacher.org)[:3]
+        current_nav = "org_teachers"
 
         return render(request, 'teacher-detail.html', {
             "current_page": current_page,
             "teacher": teacher,
-            "teacher_courses":teacher_courses,
-            "org_teachers":org_teachers
+            "teacher_courses": teacher_courses,
+            "org_teachers": org_teachers,
+            "current_nav": current_nav
         })

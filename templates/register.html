@@ -69,8 +69,8 @@
             <p class="fl hd-tips">慕学在线，在线学习平台！</p>
             <ul class="fr hd-bar">
                 <li>服务电话：<span>4001008031</span></li>
-                <li><a href="login.html">[登录]</a></li>
-                <li class="active"><a href="register.html">[注册]</a></li>
+                <li><a href="{% url 'account:login' %}">[登录]</a></li>
+                <li class="active"><a href="{% url 'account:register' %}">[注册]</a></li>
             </ul>
         </div>
     </div>
@@ -133,7 +133,7 @@
                     <!--</form>-->
                 <!--</div>-->
                 <div class="tab-form">
-                    <form id="email_register_form" method="post" action="{% url 'register' %}" autocomplete="off">
+                    <form id="email_register_form" method="post" action="{% url 'account:register' %}" autocomplete="off">
                         <input type='hidden' name='csrfmiddlewaretoken' value='gTZljXgnpvxn0fKZ1XkWrM1PrCGSjiCZ' />
                         <div class="form-group marb20 ">
                             <label>用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户</label>
